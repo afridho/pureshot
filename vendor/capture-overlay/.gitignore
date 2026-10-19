@@ -1,0 +1,108 @@
+# Rust build artifacts
+/target
+Cargo.lock
+
+# Rust IDE / tooling
+*.rs.bk
+rusty-tags.*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+*.iml
+*.orig
+.project
+.classpath
+.settings/
+
+# Claude Code
+.claude/
+
+# macOS
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Linux
+.directory
+*.swp
+*.swo
+
+# Logs
+*.log
+*.log.*
+
+# Dependencies
+vendor/
+
+# Test output
+/test-results/
+
+# CI / pipeline artifacts
+*.trx
+*.coverage
+*.traceevents
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+
+# Compiled output that might end up in the repo root
+*.exe
+*.dll
+*.pdb
+*.so
+*.dylib
+*.o
+*.obj
+*.lib
+*.exp
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*~
+
+# Python (if accidentally used)
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Node (if accidentally used)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Patch files
+*.patch
+*.diff

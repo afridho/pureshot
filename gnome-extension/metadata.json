@@ -1,0 +1,9 @@
+{
+  "uuid": "pureshot@afridho",
+  "name": "PureShot Capture Companion",
+  "description": "Private noninteractive screenshot bridge for explicitly trusted PureShot executables.",
+  "shell-version": ["50"],
+  "version": 1,
+  "url": "https://github.com/afridho/pureshot",
+  "settings-schema": "org.gnome.shell.extensions.pureshot"
+}

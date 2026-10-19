@@ -1,0 +1,146 @@
+/* The editor owns its palette and automatically follows the system theme. */
+.annotation-editor,.annotation-loading {
+  color-scheme: light;
+  --ae-page:#f5f6f8; --ae-panel:#ffffff; --ae-toolbar:#f1f2f5;
+  --ae-text:#17191d; --ae-secondary:#555d69; --ae-control-text:#343941;
+  --ae-border:#d2d6dd; --ae-control-border:#8c949f;
+  --ae-control:#eceef2; --ae-input:#f7f8fa; --ae-hover:#dde2e9;
+  --ae-menu:#ffffff; --ae-stage:#f2f3f5; --ae-stage-dot:#cfd3d9;
+  --ae-accent:#086bd8; --ae-on-accent:#ffffff; --ae-selected:#e8f2ff;
+  --ae-focus:#086bd8; --ae-focus-halo:#086bd830;
+  --ae-disabled:#757d88; --ae-disabled-surface:#e9ecf0;
+  --ae-success:#18783d; --ae-danger:#c42b1c; --ae-on-status:#ffffff;
+  --ae-shadow:#10182730; --ae-heavy-shadow:#10182735; --ae-small-shadow:#10182718;
+  --ae-swatch-edge:#0005; --ae-selection-edge:#ffffff;
+}
+/* Native Tauri theme wins even when WebKit reports a different CSS preference. */
+.annotation-editor[data-theme="dark"] {
+  color-scheme:dark;
+  --ae-page:#18191c; --ae-panel:#222327; --ae-toolbar:#222327;
+  --ae-text:#f5f6f7; --ae-secondary:#aeb4bf; --ae-control-text:#e0e4eb;
+  --ae-border:#41454e; --ae-control-border:#777f8b;
+  --ae-control:#2d2f34; --ae-input:#1d1e21; --ae-hover:#414650;
+  --ae-menu:#292a2f; --ae-stage:#151619; --ae-stage-dot:#34363b;
+  --ae-accent:#086bd8; --ae-on-accent:#ffffff; --ae-selected:#203c60;
+  --ae-focus:#79b8ff; --ae-focus-halo:#79b8ff30;
+  --ae-disabled:#929aa6; --ae-disabled-surface:#292c32;
+  --ae-success:#218c4a; --ae-shadow:#0008; --ae-heavy-shadow:#000a; --ae-small-shadow:#0004;
+}
+/* Loading/browser fallback only; never override the resolved editor theme. */
+@media(prefers-color-scheme:dark) {
+  .annotation-editor:not([data-theme]),.annotation-loading {
+    color-scheme:dark;
+    --ae-page:#18191c; --ae-panel:#222327; --ae-toolbar:#222327;
+    --ae-text:#f5f6f7; --ae-secondary:#aeb4bf; --ae-control-text:#e0e4eb;
+    --ae-border:#41454e; --ae-control-border:#777f8b;
+    --ae-control:#2d2f34; --ae-input:#1d1e21; --ae-hover:#414650;
+    --ae-menu:#292a2f; --ae-stage:#151619; --ae-stage-dot:#34363b;
+    --ae-accent:#086bd8; --ae-on-accent:#ffffff; --ae-selected:#203c60;
+    --ae-focus:#79b8ff; --ae-focus-halo:#79b8ff30;
+    --ae-disabled:#929aa6; --ae-disabled-surface:#292c32;
+    --ae-success:#218c4a; --ae-shadow:#0008; --ae-heavy-shadow:#000a; --ae-small-shadow:#0004;
+  }
+}
+.annotation-loading{height:100vh;display:grid;place-items:center;background:var(--ae-page);color:var(--ae-secondary);font-size:13px}
+.annotation-editor{height:100vh;display:grid;grid-template:44px minmax(0,1fr) 58px / 56px minmax(0,1fr);background:var(--ae-page);color:var(--ae-text);user-select:none}
+.annotation-editor :is(button,select,textarea){color:var(--ae-control-text)}
+.annotation-editor :is(button,select,textarea,input):focus-visible{outline:2px solid var(--ae-focus);outline-offset:2px}
+.annotation-editor button{cursor:pointer}
+.annotation-titlebar{grid-column:1/-1;margin:0;display:flex;align-items:center;gap:12px;padding-left:16px;background:var(--ae-panel);border-bottom:1px solid var(--ae-border)}
+.annotation-titlebar strong{font-size:13px;color:var(--ae-text);white-space:nowrap}
+.annotation-titlebar>span{font-size:11px;color:var(--ae-secondary);white-space:nowrap}
+.annotation-header-actions{margin-left:auto;display:flex;align-items:center;gap:3px}
+.annotation-options select{height:32px;border:1px solid var(--ae-control-border);border-radius:7px;padding:0 9px;background:var(--ae-input);color:var(--ae-text)}
+.annotation-editor select option{background:var(--ae-menu);color:var(--ae-text)}
+.annotation-header-actions button,.annotation-window-controls button{width:36px;height:34px;border:0;border-radius:7px;background:transparent;color:var(--ae-control-text);display:grid;place-items:center}
+.annotation-header-actions button:hover,.annotation-window-controls button:hover{background:var(--ae-hover);color:var(--ae-text)}
+.annotation-window-controls{height:44px;display:flex;margin-left:10px}
+.annotation-window-controls button{height:44px;width:46px;border-radius:0}
+.annotation-window-controls button:last-child:hover{background:var(--ae-danger);color:var(--ae-on-status)}
+.annotation-toolbar{grid-row:2;grid-column:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;padding:6px 5px;background:var(--ae-toolbar);border-right:1px solid var(--ae-border);overflow-y:auto}
+.annotation-toolbar button{width:34px;min-width:34px;height:34px;min-height:34px;padding:0;border:0;border-radius:8px;color:var(--ae-control-text);background:var(--ae-control);box-shadow:0 1px 3px var(--ae-small-shadow);display:grid;place-items:center;gap:1px}
+.annotation-toolbar button:hover{background:var(--ae-hover);color:var(--ae-text)}
+.annotation-toolbar button.active,.annotation-header-actions button.active{background:var(--ae-accent);color:var(--ae-on-accent);box-shadow:0 0 0 1px var(--ae-focus)}
+.annotation-toolbar button.counter-button.active{background:var(--ae-control);color:var(--ae-control-text);box-shadow:0 1px 3px var(--ae-small-shadow)}
+.annotation-toolbar button.counter-button.active:hover{background:var(--ae-hover);color:var(--ae-text)}
+.annotation-toolbar small{display:none}
+.counter-tool-icon circle{fill:none;stroke:currentColor;stroke-width:2}
+.counter-tool-icon text{fill:currentColor;font:800 10px Inter,"Segoe UI",sans-serif}
+.sidebar-color-picker{position:relative;margin-top:3px}
+.sidebar-color-trigger span,.sidebar-color-menu span{display:block;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--ae-swatch-edge)}
+.sidebar-color-trigger{position:relative}
+.sidebar-color-trigger:after{content:"";position:absolute;right:2px;bottom:2px;border:3px solid transparent;border-top-color:currentColor;transform:rotate(-45deg)}
+.sidebar-color-menu{position:fixed;z-index:30;left:48px;display:grid;grid-template-columns:repeat(4,30px);gap:4px;padding:7px;border:1px solid var(--ae-border);border-radius:10px;background:var(--ae-menu);box-shadow:0 10px 30px var(--ae-shadow)}
+.sidebar-color-menu button{width:30px;min-width:30px;height:30px;min-height:30px;background:transparent;box-shadow:none}
+.sidebar-color-menu button span{width:17px;height:17px}
+.background-panel{position:fixed;z-index:45;top:50px;left:62px;width:250px;max-height:calc(100vh - 120px);overflow:auto;padding:12px;border:1px solid var(--ae-border);border-radius:12px;background:var(--ae-panel);color:var(--ae-text);box-shadow:0 18px 55px var(--ae-heavy-shadow)}
+.background-panel header{display:flex;align-items:center;margin:0 0 12px}
+.background-panel header strong{font-size:13px;color:var(--ae-text)}
+.background-panel header button{margin-left:auto;width:28px;height:28px;border:0;border-radius:7px;background:transparent;color:var(--ae-secondary);display:grid;place-items:center}
+.background-panel header button:hover{background:var(--ae-hover);color:var(--ae-text)}
+.background-panel>label{display:block;margin:14px 0 7px;color:var(--ae-secondary);font-size:10px}
+.background-none{width:100%;height:31px;border:1px solid var(--ae-control-border);border-radius:7px;background:var(--ae-control);color:var(--ae-control-text)}
+.background-none:hover{background:var(--ae-hover)}
+.background-none.active{border-color:var(--ae-focus);background:var(--ae-selected);color:var(--ae-text)}
+.background-swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.background-swatches button{aspect-ratio:1;border:2px solid transparent;border-radius:8px}
+.background-swatches button.active,.background-colors button.active{border-color:var(--ae-selection-edge);box-shadow:0 0 0 2px var(--ae-focus)}
+.background-swatches button:hover,.background-colors button:hover{outline:2px solid var(--ae-focus);outline-offset:1px}
+/* These swatches and background previews represent image content, not UI surfaces. */
+.blur-swatch{background:linear-gradient(135deg,#121b31,#f06488);filter:saturate(.7)}
+.background-colors{display:flex;flex-wrap:wrap;gap:7px}
+.background-colors button{width:22px;height:22px;border:2px solid transparent;border-radius:50%;box-shadow:inset 0 0 0 1px var(--ae-swatch-edge)}
+.background-panel .background-range{margin-top:14px}
+.background-range span{display:flex;justify-content:space-between}
+.background-range b{color:var(--ae-text)}
+.background-range input{width:100%;margin-top:7px;accent-color:var(--ae-accent)}
+.annotation-stage{grid-row:2;grid-column:2;min-width:0;min-height:0;padding:28px;display:grid;place-items:center;overflow:auto;background-color:var(--ae-stage);background-image:radial-gradient(var(--ae-stage-dot) 1px,transparent 1px);background-size:18px 18px}
+.annotation-background-preview{flex:none;display:flex;justify-content:center;align-items:center;transition:padding .18s,border-radius .18s}
+.annotation-background-preview.blur{position:relative;overflow:hidden;background:#30343c}
+.annotation-background-preview.blur:before{content:"";position:absolute;inset:-25px;background:linear-gradient(135deg,#16243e,#d75a82);filter:blur(20px);transform:scale(1.15)}
+.annotation-background-preview>*{position:relative;z-index:1}
+.annotation-canvas-wrap{flex:none;display:flex;overflow:hidden;box-shadow:0 18px 60px var(--ae-heavy-shadow),0 0 0 1px var(--ae-small-shadow)}
+.annotation-canvas-wrap canvas{display:block;width:100%;height:auto;object-fit:contain;touch-action:none;cursor:crosshair}
+.annotation-options{grid-row:3;grid-column:1/-1;position:relative;z-index:20;margin:0;display:flex;align-items:center;gap:16px;padding:0 16px;background:var(--ae-panel);border-top:1px solid var(--ae-border);overflow:visible}
+.annotation-options label{display:flex;align-items:center;gap:8px;color:var(--ae-secondary);font-size:11px;white-space:nowrap}
+.annotation-options input[type=range]{width:110px;accent-color:var(--ae-accent)}
+.annotation-options b{min-width:30px;color:var(--ae-text)}
+.annotation-zoom{position:relative;width:82px;margin-left:auto;flex:none}
+.annotation-zoom-trigger{width:100%;height:34px;padding:0 10px 0 12px;border:1px solid var(--ae-control-border);border-radius:9px;background:var(--ae-control);color:var(--ae-text);display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:12px;box-shadow:0 1px 2px var(--ae-small-shadow);transition:border-color .15s,background .15s,box-shadow .15s}
+.annotation-zoom-trigger:hover{background:var(--ae-hover);border-color:var(--ae-secondary)}
+.annotation-zoom.open .annotation-zoom-trigger{border-color:var(--ae-focus);box-shadow:0 0 0 3px var(--ae-focus-halo)}
+.annotation-zoom.open .annotation-zoom-trigger svg{transform:rotate(180deg)}
+.annotation-zoom-trigger svg{color:var(--ae-secondary);transition:transform .15s}
+.annotation-zoom-menu{position:absolute;z-index:100;right:0;bottom:41px;width:112px;padding:5px;border:1px solid var(--ae-border);border-radius:10px;background:var(--ae-menu);box-shadow:0 14px 38px var(--ae-shadow)}
+.annotation-zoom-menu button{width:100%;height:30px;padding:0 8px;border:0;border-radius:6px;background:transparent;color:var(--ae-control-text);display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.annotation-zoom-menu button:hover{background:var(--ae-hover)}
+.annotation-zoom-menu button.selected{background:var(--ae-selected);color:var(--ae-text);font-weight:700}
+.annotation-zoom+.annotation-history{margin-left:0}
+.annotation-history{display:flex;gap:3px}
+.annotation-history button,.apply-crop{height:32px;min-width:34px;border:0;border-radius:7px;background:var(--ae-control);color:var(--ae-control-text);display:grid;place-items:center}
+.annotation-history button:hover,.apply-crop:hover{background:var(--ae-hover);color:var(--ae-text)}
+.apply-crop{padding:0 11px;display:block;white-space:nowrap}
+.annotation-output-actions{display:flex;gap:5px}
+.annotation-output-actions button{width:34px;height:34px;padding:0;border:0;border-radius:50%;background:var(--ae-control);color:var(--ae-control-text);display:grid;place-items:center}
+.annotation-output-actions button:hover{background:var(--ae-hover);color:var(--ae-text)}
+.annotation-output-actions button.is-complete{background:var(--ae-success);color:var(--ae-on-status)}
+.annotation-text-popover{position:fixed;z-index:50;left:50%;top:50%;width:min(390px,calc(100vw - 40px));transform:translate(-50%,-50%);padding:16px;border:1px solid var(--ae-border);border-radius:12px;background:var(--ae-menu);color:var(--ae-text);box-shadow:0 22px 70px var(--ae-heavy-shadow)}
+.annotation-text-popover label{display:block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--ae-text)}
+.annotation-text-popover textarea{display:block;width:100%;min-height:92px;resize:vertical;padding:10px 12px;border:1px solid var(--ae-control-border);border-radius:8px;background:var(--ae-input);color:var(--ae-text);font:13px Inter,"Segoe UI",sans-serif}
+.annotation-text-popover textarea::placeholder{color:var(--ae-secondary);opacity:1}
+.annotation-text-popover textarea:focus{border-color:var(--ae-focus);box-shadow:0 0 0 3px var(--ae-focus-halo)}
+.annotation-text-popover>div{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:12px}
+.annotation-text-popover span{margin-right:auto;color:var(--ae-secondary);font-size:10px}
+.annotation-text-popover button{height:32px;padding:0 12px;border:0;border-radius:7px;background:var(--ae-control);color:var(--ae-control-text)}
+.annotation-text-popover button:hover{background:var(--ae-hover)}
+.annotation-text-popover button.primary{background:var(--ae-accent);color:var(--ae-on-accent)}
+.annotation-text-popover button.primary:hover{filter:brightness(1.12)}
+.annotation-editor button:disabled,.annotation-editor button:disabled:hover{background:var(--ae-disabled-surface);color:var(--ae-disabled);box-shadow:none;cursor:not-allowed}
+@media(max-width:900px){
+  .annotation-editor{grid-template-columns:56px minmax(0,1fr)}
+  .annotation-toolbar button{width:32px;min-width:32px;height:32px;min-height:32px}
+  .annotation-options{gap:10px}.annotation-options input[type=range]{width:75px}
+  .annotation-header-actions button{width:31px}
+  .annotation-titlebar{gap:8px;padding-left:10px}
+}
+@media(max-width:720px){.annotation-titlebar>span{display:none}.annotation-header-actions button{width:26px}.annotation-window-controls{margin-left:0}}

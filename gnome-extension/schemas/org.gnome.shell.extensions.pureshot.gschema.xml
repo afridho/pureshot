@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.pureshot" path="/org/gnome/shell/extensions/pureshot/">
+    <key name="capture-area-shortcut" type="as">
+      <default>["&lt;Shift&gt;&lt;Alt&gt;4"]</default>
+      <summary>Keybinding to trigger a PureShot area capture</summary>
+      <description>
+        Compositor-level keybinding (works on Wayland) that asks the
+        PureShot companion to take an area-selection screenshot. Change it
+        with gsettings or a keyboard shortcut editor that supports custom
+        GSettings-backed bindings.
+      </description>
+    </key>
+    <key name="capture-window-shortcut" type="as">
+      <default>["&lt;Shift&gt;&lt;Alt&gt;5"]</default>
+      <summary>Keybinding to trigger a PureShot window capture</summary>
+    </key>
+    <key name="capture-fullscreen-shortcut" type="as">
+      <default>["&lt;Shift&gt;&lt;Alt&gt;3"]</default>
+      <summary>Keybinding to trigger a PureShot fullscreen capture</summary>
+    </key>
+    <key name="capture-ocr-shortcut" type="as">
+      <default>[]</default>
+      <summary>Keybinding to capture an area and copy recognized text</summary>
+      <description>Unassigned by default. An empty array disables this binding.</description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,6 @@
+[build]
+# Parallel crate compilation; leave headroom for the desktop and WebView.
+jobs = 8
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "debuginfo=0"]

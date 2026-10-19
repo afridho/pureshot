@@ -1,0 +1,29 @@
+/* Reuse the desktop theme's semantic control palette; leave capture surfaces untouched. */
+.ocr-controls { color: var(--filename-text); font-size: 12px; }
+.ocr-controls button { border: 1px solid var(--filename-border); border-radius: 7px; padding: 7px 10px; background: var(--filename-surface); color: var(--filename-text); cursor: pointer; font: inherit; }
+.ocr-controls button:hover:not(:disabled) { background: var(--filename-hover); }
+.ocr-controls button:active:not(:disabled) { transform: translateY(1px); }
+.ocr-controls button:disabled { opacity: .65; cursor: not-allowed; }
+.ocr-controls :focus-visible { outline: 2px solid var(--filename-focus); outline-offset: 2px; }
+.ocr-controls p { line-height: 1.5; color: var(--filename-muted); overflow-wrap: anywhere; }
+.ocr-controls [role="alert"] { color: var(--filename-error); }
+.ocr-setup { padding: 14px 12px; border-radius: 10px; }
+.ocr-setup p { margin: 8px 0; }
+.ocr-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ocr-view { height: 100vh; overflow: auto; padding: 24px; background: var(--filename-surface); }
+.ocr-view header { gap: 16px; margin-bottom: 16px; }
+.ocr-view h1 { font-size: 22px; }
+.ocr-view .ocr-setup { border: 1px solid var(--filename-border); margin-bottom: 20px; }
+.ocr-result { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.ocr-result figure { margin: 0; }
+.ocr-result img { display: block; max-width: 100%; max-height: 55vh; object-fit: contain; }
+.ocr-result figcaption { margin-top: 8px; color: var(--filename-muted); }
+.ocr-result section { min-width: 0; }
+.ocr-result label { display: block; margin-bottom: 8px; font-weight: 600; }
+.ocr-result textarea { display: block; width: 100%; min-height: 280px; resize: vertical; padding: 12px; border: 1px solid var(--filename-border); border-radius: 8px; background: var(--filename-surface); color: var(--filename-text); font: 14px/1.6 Consolas, monospace; }
+.ocr-result textarea::placeholder { color: var(--filename-muted); }
+.ocr-history-actions { display: flex; align-items: center; gap: 8px; }
+.ocr-history-error { margin: 0; max-width: 90%; font-size: 11px; overflow-wrap: anywhere; }
+.ocr-overlay-error { position: absolute; top: 36px; left: 8px; right: 8px; padding: 6px; border-radius: 6px; background: var(--filename-surface); color: var(--filename-error); font-size: 10px; z-index: 5; }
+.preview:focus-within .primary-actions { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+@media (max-width: 650px) { .ocr-result { grid-template-columns: minmax(0, 1fr); } .ocr-view { padding: 16px; } }
