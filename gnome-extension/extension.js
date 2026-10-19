@@ -342,19 +342,19 @@ class LiveAreaSelection {
             cr.setLineWidth(1);
             cr.stroke();
         }
-        // Compact crosshair spanning 20 logical pixels.
+        // Compact crosshair spanning 24 logical pixels with thin, contrasted strokes.
         // Keep its center at the exact selection coordinate, even without guides.
         const [x, y] = this.pointer;
-        const halfSize = 10;
+        const halfSize = 12;
         cr.moveTo(x + 0.5 - halfSize, y + 0.5);
         cr.lineTo(x + 0.5 + halfSize, y + 0.5);
         cr.moveTo(x + 0.5, y + 0.5 - halfSize);
         cr.lineTo(x + 0.5, y + 0.5 + halfSize);
         cr.setSourceRGBA(0, 0, 0, 1);
-        cr.setLineWidth(4);
+        cr.setLineWidth(3);
         cr.strokePreserve();
         cr.setSourceRGBA(1, 1, 1, 1);
-        cr.setLineWidth(2);
+        cr.setLineWidth(1);
         cr.stroke();
     }
 

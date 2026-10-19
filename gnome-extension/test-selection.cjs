@@ -176,11 +176,11 @@ test('custom plus replaces the system cursor even with guides disabled and clean
     const cr = new Proxy({}, {get: (_target, name) => (...args) => calls.push([name, ...args])});
     selection._paint(cr);
     assert.deepEqual(calls.filter(call => ['moveTo', 'lineTo'].includes(call[0])), [
-        ['moveTo', 110.5, 160.5], ['lineTo', 130.5, 160.5],
-        ['moveTo', 120.5, 150.5], ['lineTo', 120.5, 170.5],
+        ['moveTo', 108.5, 160.5], ['lineTo', 132.5, 160.5],
+        ['moveTo', 120.5, 148.5], ['lineTo', 120.5, 172.5],
     ]);
     assert.deepEqual(calls.filter(call => call[0] === 'setLineWidth'), [
-        ['setLineWidth', 4], ['setLineWidth', 2],
+        ['setLineWidth', 3], ['setLineWidth', 1],
     ]);
     assert.equal(calls.some(call => call[0] === 'strokePreserve'), true);
     selection.finish();
