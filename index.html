@@ -6,5 +6,14 @@
     <meta name="theme-color" content="#f5f6f8" />
     <title>PureShot</title>
   </head>
-  <body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none">
+      <defs>
+        <filter id="quick-preview-blur" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
+          <feGaussianBlur stdDeviation="4" edgeMode="duplicate" />
+        </filter>
+      </defs>
+    </svg>
+    <div id="root"></div><script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

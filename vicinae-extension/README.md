@@ -1,6 +1,8 @@
 # PureShot for Vicinae
 
-Provides four Vicinae commands: Capture Region, Capture Fullscreen, Capture Window, and Capture Text (OCR).
+Provides five Vicinae commands: Capture Region, Capture Fullscreen, Capture Window, Capture OCR, and Capture History.
+
+Capture History opens PureShot's recent screenshot shelf, where captures can be browsed and restored. It requires a PureShot binary that supports the `capture-history` CLI command.
 
 ## Requirements
 

@@ -9,7 +9,8 @@
     { "name": "capture-region", "title": "Capture Region", "subtitle": "Select an area to capture", "description": "Choose a region of the desktop and capture it with PureShot.", "mode": "no-view" },
     { "name": "capture-fullscreen", "title": "Capture Fullscreen", "subtitle": "Capture the entire screen", "description": "Capture the full desktop with PureShot.", "mode": "no-view" },
     { "name": "capture-window", "title": "Capture Window", "subtitle": "Select a window to capture", "description": "Open PureShot's window capture flow.", "mode": "no-view" },
-    { "name": "capture-ocr", "title": "Capture OCR", "subtitle": "Select an area and copy recognized text", "description": "Select a screen region, recognize its text, and copy it to the clipboard.", "mode": "no-view" }
+    { "name": "capture-ocr", "title": "Capture OCR", "subtitle": "Select an area and copy recognized text", "description": "Select a screen region, recognize its text, and copy it to the clipboard.", "mode": "no-view" },
+    { "name": "capture-history", "title": "Capture History", "subtitle": "Browse recent screenshots", "description": "Open PureShot's capture history to browse and restore recent screenshots.", "mode": "no-view" }
   ],
   "scripts": { "build": "vici build", "dev": "vici develop" },
   "dependencies": { "@vicinae/api": "^0.8.2" },

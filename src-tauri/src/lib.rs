@@ -213,6 +213,7 @@ fn process_cli_capture(app: tauri::AppHandle) -> Result<(), String> {
     let command = state.0.lock().map_err(|_| "CLI capture state unavailable")?.take();
     let Some(command) = command else { return Ok(()); };
     match command.as_str() {
+        "history" => show_history(&app)?,
         "area" => start_capture_from_shortcut(app, "area"),
         "fullscreen" => start_capture_from_shortcut(app, "fullscreen"),
         "window" => start_capture_from_shortcut(app, "window"),
@@ -960,32 +961,6 @@ fn start_ocr_capture(app: tauri::AppHandle) -> Result<(), String> {
     start_area_capture_inner(app, settings.corner_radius, 0, true)
 }
 
-#[tauri::command(async)]
-fn show_ocr_capture(app: tauri::AppHandle, id: String) -> Result<(), String> {
-    if !ocr::ready(&ocr_model_dir(&app)?) { return open_ocr_window(&app, &id); }
-    let item = app.state::<CaptureHistory>().0.lock().map_err(|_| "Capture history unavailable")?
-        .iter().find(|item| item.id == id).cloned().ok_or("Capture not found")?;
-    std::thread::spawn(move || {
-        if let Err(error) = recognize_and_copy_capture(&app, &item) { report_capture_error(&app, &error); }
-    });
-    Ok(())
-}
-
-fn open_ocr_window(app: &tauri::AppHandle, id: &str) -> Result<(), String> {
-    if !app.state::<CaptureHistory>().0.lock().map_err(|_| "Capture history unavailable")?.iter().any(|item| item.id == id) {
-        return Err("Capture not found".into());
-    }
-    let label = format!("ocr-{id}");
-    if let Some(window) = app.get_webview_window(&label) {
-        window.show().map_err(|e| e.to_string())?;
-        return window.set_focus().map_err(|e| e.to_string());
-    }
-    WebviewWindowBuilder::new(app, label, WebviewUrl::App("index.html?view=ocr".into()))
-        .title("PureShot — Extract Text").inner_size(900.0, 650.0)
-        .min_inner_size(600.0, 440.0).center().build().map_err(|e| e.to_string())?;
-    Ok(())
-}
-
 fn restore_main(app: &tauri::AppHandle) {
     if let Some(main) = app.get_webview_window("main") {
         let _ = main.show();
@@ -1428,6 +1403,21 @@ fn show_history(app: &tauri::AppHandle) -> Result<(), String> {
         window.show().map_err(|error| error.to_string())?;
         return window.set_focus().map_err(|error| error.to_string());
     }
+    #[cfg(target_os = "linux")]
+    let (width, height, x, y) = app.get_webview_window("main").and_then(|window| window.current_monitor().ok().flatten()).map(|monitor| {
+        // The builder takes logical pixels, but monitor work areas are physical.
+        // Keep the shelf content-sized instead of multiplying its height by DPI twice.
+        let area = monitor.work_area();
+        let scale = monitor.scale_factor();
+        let height = 232.0_f64.min(area.size.height as f64 / scale);
+        (
+            area.size.width as f64 / scale,
+            height,
+            area.position.x as f64 / scale,
+            (area.position.y as f64 + area.size.height as f64) / scale - height,
+        )
+    }).unwrap_or((1920.0, 232.0, 0.0, 848.0));
+    #[cfg(not(target_os = "linux"))]
     let (width, height, x, y) = app.get_webview_window("main").and_then(|window| window.current_monitor().ok().flatten()).map(|monitor| {
         // Use the monitor work area directly. Oversizing the window with a
         // negative x made Windows clamp the transparent WebView and exposed
@@ -1657,9 +1647,16 @@ pub fn run() {
                     "capture-fullscreen" => Some("fullscreen"),
                     "capture-window" => Some("window"),
                     "capture-ocr" => Some("ocr"),
+                    "capture-history" => Some("history"),
                     _ => None,
                 };
                 if let Some(action) = action {
+                    // History is independent of the settings WebView and must not
+                    // reveal it just to dispatch a CLI event.
+                    if action == "history" {
+                        if let Err(error) = show_history(app) { eprintln!("Unable to show history: {error}"); }
+                        return;
+                    }
                     if let Ok(mut state) = app.state::<PendingCliCapture>().0.lock() { *state = Some(action.into()); }
                     let _ = app.emit("cli-capture", ());
                     if let Some(window) = app.get_webview_window("main") {
@@ -1685,7 +1682,6 @@ pub fn run() {
             extract_capture_text,
             copy_ocr_text,
             start_ocr_capture,
-            show_ocr_capture,
             capture_screen,
             start_area_capture,
             get_latest_capture,
@@ -1726,6 +1722,7 @@ pub fn run() {
                     "capture-fullscreen" => Some("fullscreen"),
                     "capture-window" => Some("window"),
                     "capture-ocr" => Some("ocr"),
+                    "capture-history" => Some("history"),
                     _ => None,
                 };
                 if let Some(action) = action {
@@ -1950,8 +1947,9 @@ pub fn run() {
                 });
             }
             // The main window starts hidden to avoid flashing settings at login.
-            // Normal launches still open settings; autostart launches stay in the tray.
-            if !std::env::args_os().any(|arg| arg == "--autostart") {
+            // The hidden WebView processes a queued history request on startup;
+            // neither History nor autostart should reveal settings.
+            if !std::env::args_os().any(|arg| arg == "--autostart" || arg == "capture-history") {
                 if let Some(window) = app.get_webview_window("main") {
                     window.show()?;
                     window.set_focus()?;

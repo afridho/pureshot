@@ -22,8 +22,6 @@
 .ocr-result label { display: block; margin-bottom: 8px; font-weight: 600; }
 .ocr-result textarea { display: block; width: 100%; min-height: 280px; resize: vertical; padding: 12px; border: 1px solid var(--filename-border); border-radius: 8px; background: var(--filename-surface); color: var(--filename-text); font: 14px/1.6 Consolas, monospace; }
 .ocr-result textarea::placeholder { color: var(--filename-muted); }
-.ocr-history-actions { display: flex; align-items: center; gap: 8px; }
-.ocr-history-error { margin: 0; max-width: 90%; font-size: 11px; overflow-wrap: anywhere; }
 .ocr-overlay-error { position: absolute; top: 36px; left: 8px; right: 8px; padding: 6px; border-radius: 6px; background: var(--filename-surface); color: var(--filename-error); font-size: 10px; z-index: 5; }
 .preview:focus-within .primary-actions { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 @media (max-width: 650px) { .ocr-result { grid-template-columns: minmax(0, 1fr); } .ocr-view { padding: 16px; } }

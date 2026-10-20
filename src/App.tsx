@@ -367,16 +367,6 @@ function ModernSelect({ value, defaultValue, options, onChange, disabled = false
 function HistoryOverlay({ items }: { items: CaptureItem[] }) {
   const [selected, setSelected] = useState(0);
   const wheelDelta = useRef(0);
-  const [ocrBusy, setOcrBusy] = useState(false);
-  const [ocrError, setOcrError] = useState<string | null>(null);
-  const extractText = async () => {
-    const item = items[selected];
-    if (!item || ocrBusy) return;
-    setOcrBusy(true); setOcrError(null);
-    try { await invoke("show_ocr_capture", { id: item.id }); }
-    catch (error) { setOcrError(String(error)); }
-    finally { setOcrBusy(false); }
-  };
   const restore = async () => {
     const item = items[selected];
     if (item) await invoke("restore_history_capture", { id: item.id });
@@ -412,7 +402,7 @@ function HistoryOverlay({ items }: { items: CaptureItem[] }) {
       <section className="history-strip" style={{ transform: `translateX(calc(50vw - ${120 + selected * 256}px))` }}>
         {items.map((item, index) => <button type="button" key={item.id} className={`history-card ${index === selected ? "selected" : ""}`} onClick={() => setSelected(index)} onDoubleClick={() => void restore()}><img src={item.dataUrl}/></button>)}
       </section>
-      {items.length ? <><div className="ocr-history-actions"><button type="button" className="history-restore" onClick={() => void restore()}>↩&nbsp; Restore</button><button type="button" className="history-restore" disabled={ocrBusy || !items[selected]} onClick={() => void extractText()}>{ocrBusy ? "Opening…" : "Extract Text"}</button></div><div className="history-filename">{items[selected]?.path.split(/[\\/]/).pop()}</div>{ocrError && <p className="ocr-history-error" role="alert">{ocrError}</p>}</> : <div className="history-empty">No recent captures</div>}
+      {items.length ? <><button type="button" className="history-restore" onClick={() => void restore()}>↩&nbsp; Restore</button><div className="history-filename">{items[selected]?.path.split(/[\\/]/).pop()}</div></> : <div className="history-empty">No recent captures</div>}
     </div>
   </main>;
 }
