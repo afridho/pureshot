@@ -527,6 +527,11 @@ fn capture_settings(app: &tauri::AppHandle) -> CaptureSettings {
 struct RuntimeSettings(Mutex<CaptureSettings>);
 struct TrayVisibility(Mutex<bool>);
 
+// On Linux tray-icon derives both the AppIndicator identity and its shared
+// runtime PNG filename from this ID. A generic "main-tray" collides with
+// other apps (e.g. DBX), letting whichever starts last overwrite both icons.
+const TRAY_ICON_ID: &str = "com.pureshot.app.tray";
+
 fn tray_visibility_path(app: &tauri::AppHandle) -> Result<PathBuf, String> {
     app.path().app_config_dir()
         .map(|dir| dir.join("show-tray-icon.json"))
@@ -553,7 +558,7 @@ fn get_show_tray_icon(app: tauri::AppHandle) -> Result<bool, String> {
 fn set_show_tray_icon(app: tauri::AppHandle, visible: bool) -> Result<(), String> {
     let state = app.state::<TrayVisibility>();
     let mut current = state.0.lock().map_err(|_| "Tray setting unavailable")?;
-    let tray = app.tray_by_id("main-tray").ok_or("System tray icon unavailable")?;
+    let tray = app.tray_by_id(TRAY_ICON_ID).ok_or("System tray icon unavailable")?;
     let path = tray_visibility_path(&app)?;
     if let Some(dir) = path.parent() {
         fs::create_dir_all(dir).map_err(|error| error.to_string())?;
@@ -1801,7 +1806,7 @@ pub fn run() {
                     &quit,
                 ],
             )?;
-            let tray = TrayIconBuilder::with_id("main-tray")
+            let tray = TrayIconBuilder::with_id(TRAY_ICON_ID)
                 .icon(
                     app.default_window_icon()
                         .cloned()
